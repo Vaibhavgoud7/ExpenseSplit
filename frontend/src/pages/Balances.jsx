@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { getUserBalances } from "../api/balanceApi";
 import { useUser } from "../context/userContext.jsx";

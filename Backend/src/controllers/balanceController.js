@@ -1,6 +1,4 @@
-
 import Balance from "../models/Balance.js";
-
 
 export const simplifyBalancePair = async (group, userA, userB) => {
   const balanceAB = await Balance.findOne({ group, fromUser: userA, toUser: userB });
@@ -22,7 +20,6 @@ export const simplifyBalancePair = async (group, userA, userB) => {
   }
 };
 
-
 export const getGroupBalances = async (req, res) => {
   try {
     const { groupId } = req.params;
@@ -37,7 +34,6 @@ export const getGroupBalances = async (req, res) => {
   }
 };
 
-
 export const getUserSimplifiedBalances = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -51,6 +47,7 @@ export const getUserSimplifiedBalances = async (req, res) => {
     const netMap = {};
 
     balances.forEach((b) => {
+      // Note: This code assumes b.fromUser and b.toUser always exist.
       const otherUser =
         b.fromUser._id.toString() === userId
           ? b.toUser
@@ -65,10 +62,8 @@ export const getUserSimplifiedBalances = async (req, res) => {
       }
 
       if (b.fromUser._id.toString() === userId) {
-        
         netMap[key].netAmount -= b.amount;
       } else {
-        
         netMap[key].netAmount += b.amount;
       }
     });
@@ -86,7 +81,6 @@ export const getUserSimplifiedBalances = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
 
 export const settleBalance = async (req, res) => {
   try {
